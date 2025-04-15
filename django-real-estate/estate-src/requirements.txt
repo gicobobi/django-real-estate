@@ -11,5 +11,7 @@ psycopg == 3.2.5
 flake8==3.9.2
 black==21.6b0
 isort==5.9.3
-#Pillow==8.3.2
 Pillow==10.1
+djoser==2.3.1
+djangorestframework-simplejwt==6.0.0
+PyJWT==2.9.0

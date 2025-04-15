@@ -8,6 +8,8 @@ urlpatterns = [
     # This URL pattern maps 'supersecret/' to the admin site.
     # It means that the Django admin interface will be accessible at the /supersecret/ URL.
     path('supersecret/', admin.site.urls),
+    path('api/v1/auth', include('djoser.urls')),
+    path('api/v1/auth', include('djoser.urls.jwt')),
 ]
 
 # Append media file serving configuration for development:

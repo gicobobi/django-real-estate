@@ -63,6 +63,8 @@ THIRD_PARTY_APPS = [
     'django_filters',    # Filtering support for Django REST framework.
     'django_countries',  # Provides country choices for models.
     'phonenumber_field', # Phone number field for Django models.
+    'djoser',
+    'rest_framework_simplejwt',
 ]
 
 # List of local apps (custom apps developed for the project).
@@ -164,6 +166,46 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Tell Django to use the custom user model defined in apps.users.
 AUTH_USER_MODEL = 'users.User'
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': (
+        ' Bearer',
+        'JWT',
+    ),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'SIGNING_KEY': env('SIGNING_KEY'),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+}
+
+DJOSER ={
+    'LOGIN_FIELD':'email',
+    'USER_CREATE_PASSWORD_RETYPE': True,
+    'USERNAME_CHANGED_EMAIL_CONFIRMATION': True,
+    'PASSWORD_CHANGED_EMAIL_CONFIRMATION': True,
+    'SEND_CONFIRMATION_EMAIL': True,
+    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'SET_PASSWORD_RETYPE': True,
+    'PASSWORD_RESET_CONFIRM_RETYPE': True,
+    'USERNAME_RESET_CONFIRM_URL': 'email/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SEND_CONFIRMATION_EMAIL': True,
+    'SERIALIZERS': {
+        'user_create': 'apps.users.serializers.CreateUserSerializer',
+        'user': 'apps.users.serializers.UserSerializer',
+        'current_user': 'apps.users.serializers.UserSerializer',
+        'user_delete': 'djoser.serializers.UserDeleteSerializer',
+    }
+}
 
 # Logging configuration to capture log messages.
 import logging
